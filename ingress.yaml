@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host:
+    http:
+      paths:
+      - path: /movie(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: movie-svc
+            port:
+              number: 80
+      - path: /travel(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: travel-svc
+            port:
+              number: 80
+
+      - path: /bikes(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: bikes-svc
+            port:
+              number: 80
+
+      - path: /netflix(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: netflix-svc
+            port:
+              number: 80
+
+      - path: /(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: nginx-svc
+            port:
+              number: 80
